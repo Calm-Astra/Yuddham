@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UnityRoyale
+namespace Yuddham
 {
-    [CreateAssetMenu(fileName = "NewCard", menuName = "Unity Royale/Card Data")]
+    [CreateAssetMenu(fileName = "NewCard", menuName = "Yuddham/Card Data")]
     public class CardData : ScriptableObject
     {
         [Header("Card graphics")]
@@ -14,4 +14,5 @@ namespace UnityRoyale
         public PlaceableData[] placeablesData; //link to all the Placeables that this card spawns
         public Vector3[] relativeOffsets; //the relative offsets (from cursor) where the placeables will be dropped
     }
+    
 }

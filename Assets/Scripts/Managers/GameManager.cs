@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.AddressableAssets;
 
-namespace UnityRoyale
+namespace Yuddham
 {
     public class GameManager : MonoBehaviour
     {

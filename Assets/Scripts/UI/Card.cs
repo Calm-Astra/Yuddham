@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace UnityRoyale
+namespace Yuddham
 {
     public class Card : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
     {

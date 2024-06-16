@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UnityRoyale
+namespace Yuddham
 {
     public class HealthBar : MonoBehaviour
     {

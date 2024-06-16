@@ -1,108 +1,143 @@
+using System;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityRoyale;
 
-public class PrefabPositionEditor : EditorWindow
+namespace Yuddham.Editor
 {
-    private CardData prefabData;
-    private Scene editingScene;
-    private string editingScenePath = "Assets/EditingScene.unity";
-    private bool sceneLoaded = false;
+    [CustomEditor(typeof(CardData))]
+    public class ardDataEditor : UnityEditor.Editor
+    {
+        private CardData prefabData;
+        private Scene editingScene;
+        private string editingScenePath = "Assets/EditingScene.unity";
+        private bool sceneLoaded = false;
 
-    [MenuItem("Window/Prefab Position Editor")]
+        /*[MenuItem("Window/Prefab Position Editor")]
     public static void ShowWindow()
     {
         GetWindow<PrefabPositionEditor>("Prefab Position Editor");
-    }
+    }*/
 
-    private void OnGUI()
-    {
-        GUILayout.Label("Prefab Position Editor", EditorStyles.boldLabel);
-
-        prefabData = (CardData)EditorGUILayout.ObjectField("Prefab Data", prefabData, typeof(CardData), false);
-
-        if (prefabData == null)
+        private void Awake()
         {
-            EditorGUILayout.HelpBox("No Prefab Data loaded.", MessageType.Warning);
-            return;
+            SceneManager.activeSceneChanged += OnSceneChanged;
         }
 
-        if (GUILayout.Button("Open Editing Scene"))
+        private void OnDestroy()
         {
-            OpenEditingScene();
+            SceneManager.activeSceneChanged -= OnSceneChanged;
         }
 
-        if (sceneLoaded && GUILayout.Button("Save Changes"))
-        {
-            SavePrefabPositions();
-            EditorUtility.SetDirty(prefabData);
-            AssetDatabase.SaveAssets();
-        }
 
-        if (sceneLoaded && GUILayout.Button("Unload Editing Scene"))
+        public override void OnInspectorGUI()
         {
-            UnloadEditingScene();
-        }
-    }
+            //GUILayout.Label("Prefab Position Editor", EditorStyles.boldLabel);
 
-    private void OpenEditingScene()
-    {
-        if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
-        {
-            Scene existingScene = EditorSceneManager.GetSceneByPath(editingScenePath);
-            if (!existingScene.IsValid())
+            //prefabData = (CardData)EditorGUILayout.ObjectField("Prefab Data", prefabData, typeof(CardData), false);
+ 
+            var activeScene = SceneManager.GetActiveScene();
+            sceneLoaded = activeScene.path == editingScenePath;
+            if (sceneLoaded)
             {
-                editingScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
-                EditorSceneManager.SaveScene(editingScene, editingScenePath);
+                editingScene = activeScene;
             }
-            else
+            
+            DrawDefaultInspector();
+
+            // Add a space
+            GUILayout.Space(10);
+
+            // Get the target object
+            prefabData = (CardData)target;
+            if (prefabData == null)
             {
-                editingScene = EditorSceneManager.OpenScene(editingScenePath, OpenSceneMode.Additive);
+                EditorGUILayout.HelpBox("No Prefab Data loaded.", MessageType.Warning);
+                return;
             }
 
-            LoadPrefabsIntoScene();
-            sceneLoaded = true;
-        }
-    }
-
-    private void LoadPrefabsIntoScene()
-    {
-        for (var index = 0; index < prefabData.placeablesData.Length; index++)
-        {
-            var entry = prefabData.placeablesData[index];
-            if (entry.associatedPrefab != null)
+            if (GUILayout.Button("Open Editing Scene"))
             {
-                GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(entry.associatedPrefab);
-                instance.name = entry.associatedPrefab.name + " - " + index;
-                instance.transform.position = prefabData.relativeOffsets[index];
+                OpenEditingScene();
+            }
+
+            if (sceneLoaded && GUILayout.Button("Save Changes") )
+            {
+                SavePrefabPositions();
+                EditorUtility.SetDirty(prefabData);
+                AssetDatabase.SaveAssets();
+            }
+
+            if (sceneLoaded && GUILayout.Button("Unload Editing Scene"))
+            {
+                UnloadEditingScene();
             }
         }
-    }
 
-    private void SavePrefabPositions()
-    {
-        for (var index = 0; index < prefabData.placeablesData.Length; index++)
+        private void OnSceneChanged(Scene arg0, Scene arg1)
         {
-            var entry = prefabData.placeablesData[index];
-            if (entry.associatedPrefab != null)
+            //sceneLoaded = arg0.path == editingScenePath || arg1.path == editingScenePath;
+Debug.Log(SceneManager.GetActiveScene());
+        }
+
+        private void OpenEditingScene()
+        {
+            if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
             {
-                GameObject instance = GameObject.Find(entry.associatedPrefab.name + " - "+index);
-                if (instance != null)
+                Scene existingScene = EditorSceneManager.GetSceneByPath(editingScenePath);
+                if (!existingScene.IsValid())
                 {
-                    prefabData.relativeOffsets[index] = instance.transform.position;
+                    editingScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
+                    EditorSceneManager.SaveScene(editingScene, editingScenePath);
+                }
+                else
+                {
+                    editingScene = EditorSceneManager.OpenScene(editingScenePath, OpenSceneMode.Additive);
+                }
+
+                LoadPrefabsIntoScene();
+                sceneLoaded = true;
+            }
+        }
+
+        private void LoadPrefabsIntoScene()
+        {
+            for (var index = 0; index < prefabData.placeablesData.Length; index++)
+            {
+                var entry = prefabData.placeablesData[index];
+                if (entry.associatedPrefab != null)
+                {
+                    GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(entry.associatedPrefab);
+                    instance.name = entry.associatedPrefab.name + " - " + index;
+                    instance.transform.position = prefabData.relativeOffsets[index];
                 }
             }
         }
-    }
 
-    private void UnloadEditingScene()
-    {
-        if (sceneLoaded)
+        private void SavePrefabPositions()
         {
-            EditorSceneManager.CloseScene(editingScene, true);
-            sceneLoaded = false;
+            for (var index = 0; index < prefabData.placeablesData.Length; index++)
+            {
+                var entry = prefabData.placeablesData[index];
+                if (entry.associatedPrefab != null)
+                {
+                    GameObject instance = GameObject.Find(entry.associatedPrefab.name + " - "+index);
+                    if (instance != null)
+                    {
+                        prefabData.relativeOffsets[index] = instance.transform.position;
+                    }
+                }
+            }
+        }
+
+        private void UnloadEditingScene()
+        {
+            if (sceneLoaded)
+            {
+                EditorSceneManager.CloseScene(editingScene, true);
+                sceneLoaded = false;
+            }
         }
     }
 }

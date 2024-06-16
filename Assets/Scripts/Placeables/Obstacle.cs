@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UnityRoyale
+namespace Yuddham
 {
     //A static, non-moving obstacle that disappears on its own after a while
     public class Obstacle : Placeable

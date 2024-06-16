@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace UnityRoyale
+namespace Yuddham
 {
 	//This script is not actually used in the game,
 	//but it's left in the project as a very simple example of loading and instantiating a Prefab from Addressables

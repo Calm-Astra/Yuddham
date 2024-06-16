@@ -6,7 +6,7 @@ using System;
 using UnityEngine.Timeline;
 using UnityEngine.Playables;
 
-namespace UnityRoyale
+namespace Yuddham
 {
 	[Serializable, DisplayName("Card Marker")]
 	public class CardMarker : Marker, INotification

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using DG.Tweening;
 using System;
 
-namespace UnityRoyale
+namespace Yuddham
 {
     public class CardManager : MonoBehaviour
     {

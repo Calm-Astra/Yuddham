@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UnityRoyale
+namespace Yuddham
 {
-    [CreateAssetMenu(fileName = "NewPlaceable", menuName = "Unity Royale/Placeable Data")]
+    [CreateAssetMenu(fileName = "NewPlaceable", menuName = "Yuddham/Placeable Data")]
     public class PlaceableData : ScriptableObject
     {
         [Header("Common")]

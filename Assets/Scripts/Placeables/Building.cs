@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-namespace UnityRoyale
+namespace Yuddham
 {
     public class Building : ThinkingPlaceable
     {

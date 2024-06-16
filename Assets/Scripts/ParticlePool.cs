@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UnityRoyale
+namespace Yuddham
 {
 	public class ParticlePool : MonoBehaviour
 	{

@@ -6,9 +6,9 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace UnityRoyale
+namespace Yuddham
 {
-    [CreateAssetMenu(fileName = "NewDeck", menuName = "Unity Royale/Deck Data")]
+    [CreateAssetMenu(fileName = "NewDeck", menuName = "Yuddham/Deck Data")]
     public class DeckData : ScriptableObject
     {
         public AssetLabelReference[] labelsToInclude; //set by designers

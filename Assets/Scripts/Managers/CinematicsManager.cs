@@ -4,7 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using UnityEngine.Playables;
 
-namespace UnityRoyale
+namespace Yuddham
 {
 	public class CinematicsManager : MonoBehaviour
 	{

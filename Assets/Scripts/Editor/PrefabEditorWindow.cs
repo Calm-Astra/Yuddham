@@ -1,18 +1,18 @@
 using UnityEditor;
 using UnityEngine;
-using UnityRoyale;
+using Yuddham;
 
-public class PrefabEditorWindow : EditorWindow
+public class PrefabEditorWindow : Editor
 {
     private static CardData currentPrefabEntry;
     private GameObject previewInstance;
 
-    public static void ShowWindow(CardData prefabEntry)
+    /*public static void ShowWindow(CardData prefabEntry)
     {
         currentPrefabEntry = prefabEntry;
         var window = GetWindow<PrefabEditorWindow>("Prefab Editor");
         window.Show();
-    }
+    }*/
 
     private void OnEnable()
     {
@@ -33,8 +33,20 @@ public class PrefabEditorWindow : EditorWindow
         }
     }
 
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+    }
+
     private void OnGUI()
     {
+        DrawDefaultInspector();
+
+        // Add a space
+        GUILayout.Space(10);
+
+        // Get the target object
+        CardData myScriptableObject = (CardData)target;
         if (currentPrefabEntry == null || currentPrefabEntry.placeablesData[0].associatedPrefab == null)
         {
             EditorGUILayout.HelpBox("No Prefab Loaded.", MessageType.Warning);
@@ -63,10 +75,12 @@ public class PrefabEditorWindow : EditorWindow
         sceneView.Repaint();
     }
 
+    /*
     private void OnInspectorUpdate()
     {
         Repaint();
     }
+    */
 
     private void OnDestroy()
     {

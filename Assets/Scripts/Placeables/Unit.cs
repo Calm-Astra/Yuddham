@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace UnityRoyale
+namespace Yuddham
 {
     //humanoid or anyway a walking placeable
     public class Unit : ThinkingPlaceable

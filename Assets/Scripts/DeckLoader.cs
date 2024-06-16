@@ -7,7 +7,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace UnityRoyale
+namespace Yuddham
 {
     public class DeckLoader : MonoBehaviour
     {
